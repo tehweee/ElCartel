@@ -1,0 +1,17 @@
+@import "tailwindcss";
+@layer utilities {
+  .no-scrollbar::-webkit-scrollbar {
+    display: none;
+  }
+  @keyframes carousel {
+    from {
+      translate: 0;
+    }
+    to {
+      translate: -100%;
+    }
+  }
+  .animate-carousel {
+    animation: carousel 30s linear infinite;
+  }
+}

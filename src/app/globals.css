@@ -1,0 +1,11 @@
+@import "tailwindcss";
+@layer base {
+  body {
+    @apply m-0 p-0;
+  }
+
+  /* maps the Tailwind utility `font-hero` to the Next font variable */
+  .font-hero {
+    font-family: var(--font-coiny);
+  }
+}

@@ -2,11 +2,13 @@ import Button from "../UI/Button";
 import ProductName from "../UI/ProductName";
 import Price from "../UI/Price";
 import "./ProductCarousel.css";
-type data = Record<number, [name: string, image: string, price: number]>;
+import type { Product } from "../../../lib/products";
+
 interface Props {
-  data: data;
+  products: Product[];
 }
-function ProductCarousel({ data }: Props) {
+
+function ProductCarousel({ products }: Props) {
   return (
     <div className="mt-10 text-center">
       <div className="font-hero text-3xl ">
@@ -14,24 +16,21 @@ function ProductCarousel({ data }: Props) {
       </div>
       <div className={`w-[100%] flex overflow-x-auto no-scrollbar`}>
         <div className="flex align-middle justify-center gap-1em animate-carousel">
-          {Object.entries(data).map(([productID, [name, image, price]]) => (
-            <div key={productID} className="p-2 w-100 flex-[0 0 5em] mx-10">
+          {products.map((p) => (
+            <div key={p.id} className="p-2 w-100 flex-[0 0 5em] mx-10">
               <div>
                 <img
-                  src={image}
-                  alt={productID}
+                  src={p.image}
+                  alt={p.product_name}
                   className="object-cover w-100 h-100"
                 />
               </div>
               <div className="flex flex-row align-center justify-between mt-2">
                 <div>
-                  <ProductName name={name} />
-                  <Price price={price} />
+                  <ProductName name={p.product_name} />
+                  <Price price={p.price} />
                 </div>
-                <Button
-                  innerBTNText="View more"
-                  productID={Number(productID)}
-                />
+                <Button innerBTNText="View more" productID={p.id} />
               </div>
             </div>
           ))}
@@ -40,24 +39,21 @@ function ProductCarousel({ data }: Props) {
           className="flex align-middle justify-center gap-1em animate-carousel"
           aria-hidden
         >
-          {Object.entries(data).map(([productID, [name, image, price]]) => (
-            <div key={productID} className="p-2 w-100 flex-[0 0 5em] mx-10">
+          {products.map((p) => (
+            <div key={p.id} className="p-2 w-100 flex-[0 0 5em] mx-10">
               <div>
                 <img
-                  src={image as string}
-                  alt={productID}
+                  src={p.image}
+                  alt={p.product_name}
                   className="object-cover w-100 h-100"
                 />
               </div>
               <div className="flex flex-row align-center justify-between mt-2">
                 <div>
-                  <ProductName name={name} />
-                  <Price price={price} />
+                  <ProductName name={p.product_name} />
+                  <Price price={p.price} />
                 </div>
-                <Button
-                  innerBTNText="View more"
-                  productID={Number(productID)}
-                />
+                <Button innerBTNText="View more" productID={p.id} />
               </div>
             </div>
           ))}

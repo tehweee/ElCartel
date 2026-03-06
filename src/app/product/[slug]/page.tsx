@@ -1,45 +1,35 @@
-"use client";
-import { use } from "react";
-import { useState } from "react";
-import data from "../../../data/productList";
-import Price from "../../../app/component/UI/Price";
-import Button from "../../../app/component/UI/Button";
-import Link from "next/link";
-import cart from "../../../data/cartList";
-export default function GetSlug({
+import { fetchProductById } from "../../../lib/products";
+import Price from "../../component/UI/Price";
+import AddToCartButton from "./AddToCartButton";
+
+export default async function GetSlug({
   params,
 }: {
   params: Promise<{ slug: string }>;
 }) {
-  const { slug } = use(params);
-  console.log(cart);
+  const { slug } = await params;
+  const product = await fetchProductById(Number(slug));
+
+  if (!product) {
+    return <div>Product not found</div>;
+  }
+
   return (
     <>
       <div className="flex flex-row justify-center items-start my-20">
         <div className="flex-2 flex flex-row justify-center items-center">
           <img
-            src={`/${data[slug][1]}`}
-            alt={data[slug][0]}
+            src={product.image}
+            alt={product.product_name}
             className="size-130"
           />
         </div>
         <div className="flex-1">
-          <h1 className="font-hero text-[#1E1210] text-4xl">{data[slug][0]}</h1>
-          <Price price={data[slug][2]} />
-          <button
-            onClick={() => {
-              if (cart[slug] == 0 || cart[slug] == null) {
-                cart[slug] = 1;
-                localStorage.setItem("carts", JSON.stringify(cart));
-              } else {
-                cart[slug] += 1;
-                localStorage.setItem("carts", JSON.stringify(cart));
-              }
-              console.log(cart);
-            }}
-          >
-            Add To Cart
-          </button>
+          <h1 className="font-hero text-[#1E1210] text-4xl">
+            {product.product_name}
+          </h1>
+          <Price price={product.price} />
+          <AddToCartButton productId={product.id} />
         </div>
       </div>
     </>

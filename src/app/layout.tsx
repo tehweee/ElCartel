@@ -4,6 +4,7 @@ import "./globals.css";
 import { Coiny, DM_Sans } from "next/font/google";
 import Link from "next/link";
 import Footer from "./component/Footer/Footer";
+import InactivityGuard from "./component/InactivityGuard";
 const coiny = Coiny({
   weight: "400",
   subsets: ["latin"],
@@ -19,6 +20,7 @@ export default function RootLayout({
   return (
     <html lang="en" className={`${coiny.variable} ${dmSans.variable}`}>
       <body className="bg-[#FEF9D1]">
+        <InactivityGuard />
         <Header />
         {children}
         <Footer />

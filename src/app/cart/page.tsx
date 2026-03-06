@@ -1,84 +1,91 @@
 "use client";
 import { useEffect, useState } from "react";
-import data from "../../../src/data/productList";
+
+type CartProduct = { product_name: string; price: number; image: string };
+type CartItem = {
+  product_id: number;
+  quantity: number;
+  Product: CartProduct | null;
+};
+
 function Cart() {
-  const [localCart, setLocalCart] = useState(
-    JSON.parse(localStorage.getItem("carts") || "{}"),
-  );
+  const [cartItems, setCartItems] = useState<CartItem[]>([]);
   const [total, setTotal] = useState(0);
 
-  function setTotalUpdate() {
-    let tempTotal = 0;
-    Object.entries(localCart).map(([key, value]) => {
-      tempTotal += Number(value) * Number(data[Number(key)][2]);
-    });
-    setTotal(tempTotal);
-    console.log("This is the temp total: " + tempTotal);
-    console.log(total);
+  function calcTotal(items: CartItem[]): number {
+    return items.reduce((acc, item) => {
+      return acc + item.quantity * (item.Product?.price ?? 0);
+    }, 0);
   }
-  useEffect(() => {
-    setTotalUpdate();
-  }, []);
-  function incre(key: number) {
-    localCart[key] += 1;
-    setLocalCart({ ...localCart });
-    setTotalUpdate();
-    console.log(localCart);
-    localStorage.setItem("carts", JSON.stringify(localCart));
-    console.log("+1");
-  }
-  function decre(key: number) {
-    if (localCart[key] <= 1) {
-      delete localCart[key];
-      setLocalCart({ ...localCart });
-      setTotalUpdate();
-      localStorage.setItem("carts", JSON.stringify(localCart));
-      console.log("take in affect");
-    } else {
-      localCart[key] -= 1;
-      setLocalCart({ ...localCart });
-      setTotalUpdate();
-      localStorage.setItem("carts", JSON.stringify(localCart));
 
-      console.log("-1");
-    }
+  useEffect(() => {
+    fetch("/api/cart")
+      .then((r) => r.json())
+      .then((cartData: CartItem[]) => {
+        setCartItems(cartData);
+        setTotal(calcTotal(cartData));
+      });
+  }, []);
+
+  async function updateQuantity(product_id: number, newQty: number) {
+    const res = await fetch("/api/cart", {
+      method: "PATCH",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ product_id, quantity: newQty }),
+    });
+    if (!res.ok) return;
+    const updated =
+      newQty <= 0
+        ? cartItems.filter((item) => item.product_id !== product_id)
+        : cartItems.map((item) =>
+            item.product_id === product_id
+              ? { ...item, quantity: newQty }
+              : item,
+          );
+    setCartItems(updated);
+    setTotal(calcTotal(updated));
   }
+
   return (
     <>
       <div className="my-10 mb-40 mx-30">
         <div className="font-hero text-[#1E1210] text-3xl">Cart</div>
         <div className="flex flex-row justify-between items-start">
           <div className="grid grid-cols-3 gap-20">
-            {Object.entries(localCart).map(([key, value]) => (
-              <div key={key} className="size-80">
+            {cartItems.map((item) => (
+              <div key={item.product_id} className="size-80">
                 <img
-                  src={data[key][1]}
-                  alt={data[key][0]}
+                  src={item.Product?.image}
+                  alt={item.Product?.product_name}
                   className="size-full"
                 />
                 <div className="flex flex-row justify-between items-start">
                   <div>
                     <div className="font-hero text-[#1E1210] text-2xl">
-                      {data[key][0]}
+                      {item.Product?.product_name}
                     </div>
                     <div className="font-body text-[#398813] text-xl">
-                      ${data[key][2]}
+                      ${item.Product?.price}
                     </div>
                   </div>
                   <div>
                     <div className="font-hero text-[#1E1210] text-xl">
-                      Quantity:{value}
+                      Quantity: {item.quantity}
                     </div>
                     <div className="flex flex-row justify-around">
                       <span
                         className="font-hero text-[#1E1210] text-3xl"
-                        onClick={() => incre(Number(key))}
+                        onClick={() =>
+                          updateQuantity(item.product_id, item.quantity + 1)
+                        }
                       >
                         +
                       </span>
                       <span
                         className="font-hero text-[#1E1210] text-3xl"
-                        onClick={() => decre(Number(key))}
+                        onClick={() =>
+                          updateQuantity(item.product_id, item.quantity - 1)
+                        }
                       >
                         -
                       </span>
@@ -91,18 +98,18 @@ function Cart() {
           <div className="flex flex-col justify-center items-center bg-[#FEF9D1] sticky top-10 border-dotted border-[#1E1210] border-6 p-5 rounded-4xl">
             <div className="font-hero text-[#1E1210] text-3xl">Receipt</div>
             <div className="">
-              {Object.entries(localCart).map(([key, value]) => (
-                <div key={key}>
+              {cartItems.map((item) => (
+                <div key={item.product_id}>
                   <span className="font-hero text-[#1E1210] text-xl">
-                    {data[key][0]}
+                    {item.Product?.product_name}
                   </span>{" "}
                   (
                   <span className="font-body text-[#398813] font-bold">
-                    ${data[key][2]}
+                    ${item.Product?.price}
                   </span>
                   ) -{" "}
                   <span className="font-body text-[#D5A15D] font-bold">
-                    Quantity {value}
+                    Quantity {item.quantity}
                   </span>{" "}
                   -{" "}
                   <span className="font-body text-[#FB7C25] font-bold">
@@ -110,7 +117,7 @@ function Cart() {
                   </span>{" "}
                   (
                   <span className="font-body text-[#398813] font-bold">
-                    ${value * data[key][2]}
+                    ${item.quantity * (item.Product?.price ?? 0)}
                   </span>
                   )
                 </div>

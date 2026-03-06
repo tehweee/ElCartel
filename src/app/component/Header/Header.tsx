@@ -1,5 +1,11 @@
 import Link from "next/link";
-function Header() {
+import { cookies } from "next/headers";
+import LogoutButton from "./LogoutButton";
+
+async function Header() {
+  const cookieStore = await cookies();
+  const isLoggedIn = !!cookieStore.get("sb-access-token")?.value;
+
   return (
     <header className="bg-[#1E1210] flex justify-between items-center">
       <div>
@@ -28,21 +34,31 @@ function Header() {
             Checkout
           </Link>
         </div>
-        <div>
-          <Link href="../profile" className="text-white font-hero">
-            Profile
-          </Link>
-        </div>
-        <div>
-          <Link href="../login" className="text-white font-hero">
-            Login
-          </Link>
-        </div>
-        <div>
-          <Link href="../signup" className="text-white font-hero">
-            Register
-          </Link>
-        </div>
+        {isLoggedIn && (
+          <div>
+            <Link href="../profile" className="text-white font-hero">
+              Profile
+            </Link>
+          </div>
+        )}
+        {isLoggedIn ? (
+          <div>
+            <LogoutButton />
+          </div>
+        ) : (
+          <>
+            <div>
+              <Link href="../login" className="text-white font-hero">
+                Login
+              </Link>
+            </div>
+            <div>
+              <Link href="../signup" className="text-white font-hero">
+                Register
+              </Link>
+            </div>
+          </>
+        )}
       </div>
     </header>
   );

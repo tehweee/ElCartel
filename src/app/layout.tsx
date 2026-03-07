@@ -19,7 +19,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en" className={`${coiny.variable} ${dmSans.variable}`}>
-      <body className="bg-[#FEF9D1]">
+      <body className="bg-black">
         <InactivityGuard />
         <Header />
         {children}

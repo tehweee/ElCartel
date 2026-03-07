@@ -9,3 +9,420 @@
     font-family: var(--font-coiny);
   }
 }
+
+/* ============================================
+   BRUTALISM HERO — KEYFRAMES
+   ============================================ */
+
+@keyframes logo-float {
+  0%,
+  100% {
+    transform: translateY(0px) rotate(-3deg);
+  }
+  50% {
+    transform: translateY(-18px) rotate(3deg);
+  }
+}
+
+@keyframes logo-glitch {
+  0% {
+    transform: scale(1) rotate(0deg) skewX(0deg);
+    filter: hue-rotate(0deg) brightness(1);
+  }
+  10% {
+    transform: scale(1.18) rotate(-10deg) skewX(6deg);
+    filter: hue-rotate(90deg) brightness(1.6);
+  }
+  20% {
+    transform: scale(0.88) rotate(10deg) skewX(-6deg);
+    filter: hue-rotate(180deg) brightness(0.7);
+  }
+  30% {
+    transform: scale(1.22) rotate(-6deg) skewX(4deg);
+    filter: hue-rotate(270deg) brightness(2);
+  }
+  40% {
+    transform: scale(0.92) rotate(6deg) skewX(-3deg);
+    filter: hue-rotate(0deg) brightness(1);
+  }
+  50% {
+    transform: scale(1.12) rotate(-4deg) skewX(2deg);
+    filter: hue-rotate(135deg) brightness(1.4);
+  }
+  60% {
+    transform: scale(1) rotate(0deg) skewX(0deg);
+    filter: hue-rotate(0deg) brightness(1);
+  }
+  100% {
+    transform: scale(1) rotate(0deg) skewX(0deg);
+    filter: hue-rotate(0deg) brightness(1);
+  }
+}
+
+@keyframes brutal-shake {
+  0%,
+  100% {
+    transform: translate(0, 0) rotate(0deg);
+  }
+  10% {
+    transform: translate(-7px, 2px) rotate(-2deg);
+  }
+  20% {
+    transform: translate(7px, -2px) rotate(2deg);
+  }
+  30% {
+    transform: translate(-5px, 5px) rotate(-1.5deg);
+  }
+  40% {
+    transform: translate(5px, -5px) rotate(1.5deg);
+  }
+  50% {
+    transform: translate(-3px, 3px) rotate(-1deg);
+  }
+  60% {
+    transform: translate(3px, 0px) rotate(1deg);
+  }
+  70% {
+    transform: translate(-7px, -2px) rotate(-2deg);
+  }
+  80% {
+    transform: translate(7px, 2px) rotate(2deg);
+  }
+  90% {
+    transform: translate(-4px, 0px) rotate(-1deg);
+  }
+}
+
+@keyframes glitch-text {
+  0%,
+  100% {
+    text-shadow: 4px 4px 0 rgba(0, 0, 0, 0.9);
+    transform: translate(0, 0);
+  }
+  10% {
+    text-shadow:
+      -5px 4px 0 #ff0000,
+      5px -4px 0 #00ffff;
+    transform: translate(-3px, 0);
+  }
+  20% {
+    text-shadow:
+      5px -4px 0 #ff0000,
+      -5px 4px 0 #00ffff;
+    transform: translate(3px, 0);
+  }
+  30% {
+    text-shadow:
+      -3px -3px 0 #ff0000,
+      3px 3px 0 #00ffff;
+    transform: translate(0, -3px);
+  }
+  40% {
+    text-shadow: 4px 4px 0 rgba(0, 0, 0, 0.9);
+    transform: translate(0, 0);
+  }
+}
+
+@keyframes shadow-stomp {
+  0% {
+    box-shadow: 8px 8px 0 #000;
+    transform: translate(0, 0);
+  }
+  50% {
+    box-shadow: 2px 2px 0 #000;
+    transform: translate(6px, 6px);
+  }
+  100% {
+    box-shadow: 8px 8px 0 #000;
+    transform: translate(0, 0);
+  }
+}
+
+/* ============================================
+   BRUTALISM HERO — COMPONENT CLASSES
+   ============================================ */
+
+/* Logo — floats continuously, glitches on hover */
+.logo-animate {
+  animation: logo-float 3s ease-in-out infinite;
+  cursor: pointer;
+  display: inline-block;
+}
+.logo-animate:hover {
+  animation: logo-glitch 0.35s steps(1) infinite;
+}
+
+/* Main title brutalist box */
+.brutal-title-box {
+  border: 5px solid #fdcb84;
+  box-shadow: 12px 12px 0 #000000;
+  transition:
+    box-shadow 0.08s,
+    border-color 0.08s;
+}
+.brutal-title-box:hover {
+  animation: brutal-shake 0.35s ease-in-out infinite;
+  box-shadow: 14px 14px 0 #ff3b3b;
+  border-color: #ff3b3b;
+}
+.brutal-title-box:hover h1 {
+  animation: glitch-text 0.14s steps(1) infinite;
+}
+
+/* Sub-title box */
+.brutal-sub-box {
+  border: 4px solid #ffffff;
+  box-shadow: 8px 8px 0 #000000;
+  transition:
+    box-shadow 0.08s,
+    transform 0.08s,
+    background-color 0.08s,
+    border-color 0.08s,
+    color 0.08s;
+}
+.brutal-sub-box:hover {
+  box-shadow: -8px -8px 0 #ffffff;
+  transform: translate(8px, 8px);
+  border-color: #fdcb84;
+  background-color: #fdcb84 !important;
+  color: #000 !important;
+}
+.brutal-sub-box:hover p {
+  color: #000 !important;
+}
+
+/* CTA button */
+.brutal-cta-btn {
+  border: 5px solid #000000;
+  box-shadow: 8px 8px 0 #000000;
+  background-color: #fdcb84;
+  color: #000000;
+  font-family: var(--font-coiny);
+  font-size: 1.6rem;
+  letter-spacing: 0.25em;
+  padding: 0.9rem 3.5rem;
+  cursor: pointer;
+  text-transform: uppercase;
+  display: inline-block;
+  transition:
+    background-color 0.08s,
+    color 0.08s,
+    border-color 0.08s;
+}
+.brutal-cta-btn:hover {
+  animation: shadow-stomp 0.3s ease-in-out infinite;
+  background-color: #000000;
+  color: #fdcb84;
+  border-color: #fdcb84;
+}
+
+/* Subtle gold grid overlay for raw brutalist texture */
+.brutal-grid-overlay {
+  background-image:
+    linear-gradient(rgba(253, 203, 132, 0.07) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(253, 203, 132, 0.07) 1px, transparent 1px);
+  background-size: 64px 64px;
+  pointer-events: none;
+}
+
+/* ============================================
+   PRODUCT DETAIL PAGE
+   ============================================ */
+
+@keyframes product-float {
+  0%,
+  100% {
+    transform: translateY(0px);
+  }
+  50% {
+    transform: translateY(-14px);
+  }
+}
+
+/* Floating image wrapper with gold glow */
+.product-detail-frame {
+  position: relative;
+  display: inline-block;
+  animation: product-float 4s ease-in-out infinite;
+  filter: drop-shadow(0 0 28px rgba(253, 203, 132, 0.18));
+  transition: filter 0.3s;
+}
+.product-detail-frame:hover {
+  animation-play-state: paused;
+  filter: drop-shadow(0 0 60px rgba(253, 203, 132, 0.55));
+}
+
+/* Product title — glitches on hover */
+.brutal-product-title {
+  text-shadow: 4px 4px 0 rgba(0, 0, 0, 0.9);
+  transition: text-shadow 0.1s;
+  cursor: default;
+}
+.brutal-product-title:hover {
+  animation: glitch-text 0.14s steps(1) infinite;
+}
+
+/* Added-to-cart state override */
+.brutal-added-btn {
+  background-color: #fdcb84 !important;
+  color: #000000 !important;
+  border-color: #000000 !important;
+  animation: none !important;
+  box-shadow: 2px 2px 0 #000 !important;
+}
+
+/* ============================================
+   FORM INPUTS — BRUTALIST DARK
+   ============================================ */
+
+.brutal-input {
+  background-color: #000000;
+  border: 2px solid #fdcb84;
+  color: #fdcb84;
+  font-family: var(--font-coiny);
+  font-size: 1.1rem;
+  letter-spacing: 0.05em;
+  padding: 0.6rem 1rem;
+  outline: none;
+  transition:
+    box-shadow 0.08s,
+    border-color 0.08s;
+}
+.brutal-input::placeholder {
+  color: rgba(253, 203, 132, 0.25);
+}
+.brutal-input:focus {
+  box-shadow: 4px 4px 0 #fdcb84;
+}
+
+.brutal-input-disabled {
+  background-color: #000000;
+  border: 2px solid rgba(253, 203, 132, 0.2);
+  color: rgba(253, 203, 132, 0.3);
+  font-family: var(--font-coiny);
+  font-size: 1.1rem;
+  letter-spacing: 0.05em;
+  padding: 0.6rem 1rem;
+  cursor: not-allowed;
+}
+
+/* ============================================
+   CART PAGE
+   ============================================ */
+
+/* Quantity +/- buttons on cart items */
+.cart-qty-btn {
+  font-family: var(--font-coiny);
+  font-size: 1.4rem;
+  line-height: 1;
+  width: 2rem;
+  height: 2rem;
+  border: 2px solid #fdcb84;
+  background-color: transparent;
+  color: #fdcb84;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition:
+    background-color 0.08s,
+    color 0.08s,
+    box-shadow 0.08s;
+}
+.cart-qty-btn:hover {
+  background-color: #fdcb84;
+  color: #000000;
+  box-shadow: 3px 3px 0 #000;
+}
+
+/* ============================================
+   CUSTOM SCROLLBAR — BRUTALIST GOLD
+   ============================================ */
+
+::-webkit-scrollbar {
+  width: 10px;
+  background-color: #000000;
+}
+::-webkit-scrollbar-track {
+  background-color: #000000;
+  border-left: 1px solid rgba(253, 203, 132, 0.15);
+}
+::-webkit-scrollbar-thumb {
+  background-color: #fdcb84;
+  border: 2px solid #000000;
+}
+::-webkit-scrollbar-thumb:hover {
+  background-color: #ffffff;
+}
+* {
+  scrollbar-width: thin;
+  scrollbar-color: #fdcb84 #000000;
+}
+
+/* ============================================
+   HEADER / FOOTER — NAV LINKS
+   ============================================ */
+
+.nav-brutal-link {
+  font-family: var(--font-coiny);
+  color: #fdcb84;
+  text-transform: uppercase;
+  letter-spacing: 0.2em;
+  font-size: 1.1rem;
+  position: relative;
+  display: inline-block;
+  text-decoration: none;
+  transition: color 0.08s;
+}
+.nav-brutal-link::after {
+  content: "";
+  position: absolute;
+  bottom: -3px;
+  left: 0;
+  width: 0;
+  height: 2px;
+  background-color: #fdcb84;
+  transition: width 0.15s ease-in-out;
+}
+.nav-brutal-link:hover::after {
+  width: 100%;
+}
+.nav-brutal-link:hover {
+  color: #ffffff;
+}
+
+/* Register CTA nav pill */
+.nav-brutal-cta {
+  border: 3px solid #fdcb84 !important;
+  box-shadow: 4px 4px 0 #000000;
+  padding: 0.25rem 1.1rem !important;
+  background-color: transparent;
+  transition:
+    background-color 0.08s,
+    color 0.08s,
+    box-shadow 0.08s,
+    transform 0.08s;
+}
+.nav-brutal-cta:hover {
+  background-color: #fdcb84 !important;
+  color: #000000 !important;
+  box-shadow: 2px 2px 0 #000000;
+  transform: translate(2px, 2px);
+}
+.nav-brutal-cta::after {
+  display: none !important;
+}
+
+/* Footer tagline brutalist box */
+.footer-tagline-box {
+  border: 3px solid #fdcb84;
+  box-shadow: 6px 6px 0 #000000;
+  background-color: rgba(0, 0, 0, 0.8);
+  transition:
+    box-shadow 0.08s,
+    transform 0.08s;
+}
+.footer-tagline-box:hover {
+  box-shadow: 2px 2px 0 #fdcb84;
+  transform: translate(4px, 4px);
+}

@@ -111,55 +111,87 @@ export default function Profile() {
 
   if (loadError) {
     return (
-      <div className="min-h-screen bg-[#FEF9D1] flex items-center justify-center">
-        <p className="font-body text-[#1E1210] text-lg">{loadError}</p>
+      <div className="relative min-h-screen bg-black flex items-center justify-center">
+        <div className="absolute inset-0 brutal-grid-overlay pointer-events-none" />
+        <div className="absolute top-0 left-0 w-full h-1.5 bg-[#FDCB84]" />
+        <div className="relative z-10 border-4 border-[#FDCB84] px-10 py-6 shadow-[6px_6px_0_#FDCB84] bg-black">
+          <p className="font-hero text-[#FDCB84] text-2xl tracking-widest">
+            {loadError}
+          </p>
+        </div>
       </div>
     );
   }
 
   if (!profile) {
     return (
-      <div className="min-h-screen bg-[#FEF9D1] flex items-center justify-center">
-        <p className="font-body text-[#1E1210] text-lg">Loading…</p>
+      <div className="relative min-h-screen bg-black flex items-center justify-center">
+        <div className="absolute inset-0 brutal-grid-overlay pointer-events-none" />
+        <div className="absolute top-0 left-0 w-full h-1.5 bg-[#FDCB84]" />
+        <div className="relative z-10 border-4 border-[#FDCB84] px-10 py-6 shadow-[6px_6px_0_#FDCB84] bg-black">
+          <p className="font-hero text-[#FDCB84] text-2xl tracking-widest">
+            Loading Arsenal...
+          </p>
+        </div>
       </div>
     );
   }
 
-  const inputClass =
-    "border border-[#FDCB84] rounded-xl px-4 py-2 bg-[#FEF9D1] text-[#1E1210] font-body placeholder:text-[#1E1210]/40 focus:outline-none focus:ring-2 focus:ring-[#FDCB84] w-full";
-  const disabledClass =
-    "border border-[#1E1210]/30 rounded-xl px-4 py-2 bg-[#1E1210]/10 text-[#1E1210]/50 font-body w-full cursor-not-allowed";
+  const inputClass = "brutal-input w-full";
+  const disabledClass = "brutal-input-disabled w-full";
 
   return (
-    <div className="min-h-screen bg-[#FEF9D1] flex flex-col items-center py-16 px-4">
-      <h1 className="font-hero text-[#1E1210] text-5xl mb-10">My Profile</h1>
+    <div className="relative min-h-screen bg-black overflow-x-hidden">
+      <div className="absolute inset-0 brutal-grid-overlay pointer-events-none" />
+      <div className="absolute top-0 left-0 w-full h-1.5 bg-[#FDCB84]" />
+      <div className="absolute bottom-0 left-0 w-full h-1.5 bg-[#FDCB84]" />
+      <div className="absolute top-6 left-6 w-12 h-12 border-l-4 border-t-4 border-[#FDCB84]" />
+      <div className="absolute top-6 right-6 w-12 h-12 border-r-4 border-t-4 border-[#FDCB84]" />
+      <div className="absolute bottom-6 left-6 w-12 h-12 border-l-4 border-b-4 border-[#FDCB84]" />
+      <div className="absolute bottom-6 right-6 w-12 h-12 border-r-4 border-b-4 border-[#FDCB84]" />
 
-      <div className="w-full max-w-lg flex flex-col gap-8">
-        {/* ── Account Info ─────────────────────────────────────── */}
-        <div className="bg-[#1E1210] rounded-2xl p-8 shadow-xl">
-          <h2 className="font-hero text-[#FDCB84] text-3xl mb-6">
-            Account Info
-          </h2>
+      <div className="relative z-10 max-w-lg mx-auto px-6 py-24 flex flex-col gap-10">
+        {/* Page header */}
+        <div className="flex items-center gap-4">
+          <div className="h-px flex-1 bg-[#FDCB84] opacity-30" />
+          <div className="border-4 border-[#FDCB84] px-8 py-3 shadow-[6px_6px_0_#FDCB84] bg-black">
+            <h1 className="font-hero text-[#FDCB84] text-4xl tracking-[0.4em] uppercase">
+              My Profile
+            </h1>
+          </div>
+          <div className="h-px flex-1 bg-[#FDCB84] opacity-30" />
+        </div>
+
+        {/* ── Account Info ── */}
+        <div className="border-4 border-[#FDCB84] bg-black shadow-[6px_6px_0_#FDCB84] p-8 flex flex-col gap-6">
+          <div className="flex items-center gap-3 mb-2">
+            <div className="h-px flex-1 bg-[#FDCB84] opacity-40" />
+            <h2 className="font-hero text-[#FDCB84] text-2xl tracking-[0.3em] uppercase">
+              Account Info
+            </h2>
+            <div className="h-px flex-1 bg-[#FDCB84] opacity-40" />
+          </div>
+
           <form onSubmit={handleInfoSubmit} className="flex flex-col gap-5">
-            {/* Email — read only */}
-            <div className="flex flex-col gap-1">
-              <label className="text-[#FDCB84] font-hero text-xl">Email</label>
+            <div className="flex flex-col gap-2">
+              <label className="font-hero text-[#FDCB84] text-lg tracking-widest uppercase">
+                Email
+              </label>
               <input
                 type="email"
                 value={profile.email}
                 disabled
                 className={disabledClass}
               />
-              <p className="font-body text-[#FEF9D1]/40 text-xs mt-1">
+              <p className="font-hero text-white/25 text-xs tracking-[0.3em] uppercase">
                 Email cannot be changed.
               </p>
             </div>
 
-            {/* Username */}
-            <div className="flex flex-col gap-1">
+            <div className="flex flex-col gap-2">
               <label
                 htmlFor="username"
-                className="text-[#FDCB84] font-hero text-xl"
+                className="font-hero text-[#FDCB84] text-lg tracking-widest uppercase"
               >
                 Username
               </label>
@@ -176,12 +208,12 @@ export default function Profile() {
             </div>
 
             {infoError && (
-              <p className="text-red-400 font-body text-sm text-center">
+              <p className="font-hero text-red-400 text-sm tracking-widest text-center">
                 {infoError}
               </p>
             )}
             {infoMsg && (
-              <p className="text-green-400 font-body text-sm text-center">
+              <p className="font-hero text-green-400 text-sm tracking-widest text-center">
                 {infoMsg}
               </p>
             )}
@@ -189,23 +221,28 @@ export default function Profile() {
             <button
               type="submit"
               disabled={infoLoading || username.trim() === profile.username}
-              className="mt-1 bg-[#FDCB84] text-[#1E1210] font-hero text-xl py-2 rounded-xl hover:bg-[#FEF9D1] transition-colors disabled:opacity-50 disabled:cursor-not-allowed cursor-pointer"
+              className="brutal-cta-btn w-full disabled:opacity-40 disabled:cursor-not-allowed mt-1"
             >
               {infoLoading ? "Saving…" : "Save Changes"}
             </button>
           </form>
         </div>
 
-        {/* ── Change Password ───────────────────────────────────── */}
-        <div className="bg-[#1E1210] rounded-2xl p-8 shadow-xl">
-          <h2 className="font-hero text-[#FDCB84] text-3xl mb-6">
-            Change Password
-          </h2>
+        {/* ── Change Password ── */}
+        <div className="border-4 border-[#FDCB84] bg-black shadow-[6px_6px_0_#FDCB84] p-8 flex flex-col gap-6">
+          <div className="flex items-center gap-3 mb-2">
+            <div className="h-px flex-1 bg-[#FDCB84] opacity-40" />
+            <h2 className="font-hero text-[#FDCB84] text-2xl tracking-[0.3em] uppercase">
+              Change Password
+            </h2>
+            <div className="h-px flex-1 bg-[#FDCB84] opacity-40" />
+          </div>
+
           <form onSubmit={handlePasswordSubmit} className="flex flex-col gap-5">
-            <div className="flex flex-col gap-1">
+            <div className="flex flex-col gap-2">
               <label
                 htmlFor="currentPassword"
-                className="text-[#FDCB84] font-hero text-xl"
+                className="font-hero text-[#FDCB84] text-lg tracking-widest uppercase"
               >
                 Current Password
               </label>
@@ -221,10 +258,10 @@ export default function Profile() {
               />
             </div>
 
-            <div className="flex flex-col gap-1">
+            <div className="flex flex-col gap-2">
               <label
                 htmlFor="newPassword"
-                className="text-[#FDCB84] font-hero text-xl"
+                className="font-hero text-[#FDCB84] text-lg tracking-widest uppercase"
               >
                 New Password
               </label>
@@ -240,10 +277,10 @@ export default function Profile() {
               />
             </div>
 
-            <div className="flex flex-col gap-1">
+            <div className="flex flex-col gap-2">
               <label
                 htmlFor="confirmPassword"
-                className="text-[#FDCB84] font-hero text-xl"
+                className="font-hero text-[#FDCB84] text-lg tracking-widest uppercase"
               >
                 Confirm New Password
               </label>
@@ -260,12 +297,12 @@ export default function Profile() {
             </div>
 
             {pwError && (
-              <p className="text-red-400 font-body text-sm text-center">
+              <p className="font-hero text-red-400 text-sm tracking-widest text-center">
                 {pwError}
               </p>
             )}
             {pwMsg && (
-              <p className="text-green-400 font-body text-sm text-center">
+              <p className="font-hero text-green-400 text-sm tracking-widest text-center">
                 {pwMsg}
               </p>
             )}
@@ -273,7 +310,7 @@ export default function Profile() {
             <button
               type="submit"
               disabled={pwLoading}
-              className="mt-1 bg-[#FDCB84] text-[#1E1210] font-hero text-xl py-2 rounded-xl hover:bg-[#FEF9D1] transition-colors disabled:opacity-50 disabled:cursor-not-allowed cursor-pointer"
+              className="brutal-cta-btn w-full disabled:opacity-40 disabled:cursor-not-allowed mt-1"
             >
               {pwLoading ? "Updating…" : "Update Password"}
             </button>

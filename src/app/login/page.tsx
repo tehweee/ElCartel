@@ -40,22 +40,32 @@ export default function Login() {
   }
 
   return (
-    <div className="min-h-screen bg-[#FEF9D1] flex items-center justify-center px-4">
-      <div className="bg-[#1E1210] rounded-2xl p-10 w-full max-w-md shadow-xl">
-        {/* Logo / Title */}
-        <h1 className="font-hero text-[#FDCB84] text-4xl text-center mb-1">
-          El Cartel
-        </h1>
-        <p className="font-body text-[#FEF9D1]/70 text-center text-sm mb-8">
-          Sign in to your account
-        </p>
+    <div className="relative min-h-screen bg-black flex items-center justify-center px-4 overflow-hidden">
+      <div className="absolute inset-0 brutal-grid-overlay pointer-events-none" />
+      <div className="absolute top-0 left-0 w-full h-1.5 bg-[#FDCB84]" />
+      <div className="absolute bottom-0 left-0 w-full h-1.5 bg-[#FDCB84]" />
+      <div className="absolute top-6 left-6 w-12 h-12 border-l-4 border-t-4 border-[#FDCB84]" />
+      <div className="absolute top-6 right-6 w-12 h-12 border-r-4 border-t-4 border-[#FDCB84]" />
+      <div className="absolute bottom-6 left-6 w-12 h-12 border-l-4 border-b-4 border-[#FDCB84]" />
+      <div className="absolute bottom-6 right-6 w-12 h-12 border-r-4 border-b-4 border-[#FDCB84]" />
+
+      <div className="relative z-10 w-full max-w-md border-4 border-[#FDCB84] bg-black shadow-[10px_10px_0_#FDCB84] p-10 flex flex-col gap-8">
+        {/* Title */}
+        <div className="text-center flex flex-col items-center gap-2">
+          <h1 className="font-hero text-[#FDCB84] text-5xl tracking-[0.3em] uppercase">
+            El Cartel
+          </h1>
+          <div className="h-px w-24 bg-[#FDCB84] opacity-40" />
+          <p className="font-hero text-white/40 text-sm tracking-[0.4em] uppercase">
+            Sign in to your account
+          </p>
+        </div>
 
         <form onSubmit={handleSubmit} className="flex flex-col gap-5">
-          {/* Identifier */}
-          <div className="flex flex-col gap-1">
+          <div className="flex flex-col gap-2">
             <label
               htmlFor="identifier"
-              className="text-[#FDCB84] font-hero text-xl"
+              className="font-hero text-[#FDCB84] text-lg tracking-widest uppercase"
             >
               Email or Username
             </label>
@@ -67,15 +77,14 @@ export default function Login() {
               value={identifier}
               onChange={(e) => setIdentifier(e.target.value)}
               required
-              className="border border-[#FDCB84] rounded-xl px-4 py-2 bg-[#FEF9D1] text-[#1E1210] font-body placeholder:text-[#1E1210]/40 focus:outline-none focus:ring-2 focus:ring-[#FDCB84]"
+              className="brutal-input w-full"
             />
           </div>
 
-          {/* Password */}
-          <div className="flex flex-col gap-1">
+          <div className="flex flex-col gap-2">
             <label
               htmlFor="password"
-              className="text-[#FDCB84] font-hero text-xl"
+              className="font-hero text-[#FDCB84] text-lg tracking-widest uppercase"
             >
               Password
             </label>
@@ -87,33 +96,28 @@ export default function Login() {
               value={password}
               onChange={(e) => setPassword(e.target.value)}
               required
-              className="border border-[#FDCB84] rounded-xl px-4 py-2 bg-[#FEF9D1] text-[#1E1210] font-body placeholder:text-[#1E1210]/40 focus:outline-none focus:ring-2 focus:ring-[#FDCB84]"
+              className="brutal-input w-full"
             />
           </div>
 
-          {/* Error message */}
           {error && (
-            <p className="text-red-400 font-body text-sm text-center">
+            <p className="font-hero text-red-400 text-sm tracking-widest text-center">
               {error}
             </p>
           )}
 
-          {/* Submit */}
           <button
             type="submit"
             disabled={loading}
-            className="mt-2 bg-[#FDCB84] text-[#1E1210] font-hero text-xl py-2 rounded-xl hover:bg-[#FEF9D1] transition-colors disabled:opacity-50 disabled:cursor-not-allowed cursor-pointer"
+            className="brutal-cta-btn w-full disabled:opacity-40 disabled:cursor-not-allowed mt-1"
           >
             {loading ? "Signing in…" : "Login"}
           </button>
         </form>
 
-        <p className="text-[#FEF9D1]/60 font-body text-sm text-center mt-6">
-          Don&apos;t have an account?{" "}
-          <Link
-            href="/signup"
-            className="text-[#FDCB84] hover:underline font-body"
-          >
+        <p className="font-hero text-white/30 text-sm tracking-[0.25em] uppercase text-center">
+          No account?{" "}
+          <Link href="/signup" className="text-[#FDCB84] hover:underline">
             Register here
           </Link>
         </p>

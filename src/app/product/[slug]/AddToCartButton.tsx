@@ -30,13 +30,20 @@ export default function AddToCartButton({ productId }: { productId: number }) {
     setTimeout(() => setStatus("idle"), 2000);
   }
 
+  const label =
+    status === "added"
+      ? "Added!"
+      : status === "loading"
+        ? "Adding..."
+        : "Add To Cart";
+
   return (
-    <button onClick={handleAddToCart} disabled={status === "loading"}>
-      {status === "added"
-        ? "Added!"
-        : status === "loading"
-          ? "Adding..."
-          : "Add To Cart"}
+    <button
+      onClick={handleAddToCart}
+      disabled={status === "loading"}
+      className={`brutal-cta-btn${status === "added" ? " brutal-added-btn" : ""}`}
+    >
+      {label}
     </button>
   );
 }

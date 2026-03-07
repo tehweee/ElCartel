@@ -7,58 +7,55 @@ async function Header() {
   const isLoggedIn = !!cookieStore.get("sb-access-token")?.value;
 
   return (
-    <header className="bg-[#1E1210] flex justify-between items-center">
-      <div>
-        <Link href="../">
-          {" "}
-          <img
-            src="/images/elcartel-logo.png"
-            alt="el_cartel_logo"
-            className=" size-30 mx-50 mt-4"
-          />
+    <header className="sticky top-0 z-50 bg-black border-b-2 border-[#FDCB84] overflow-hidden">
+      {/* Brutalist grid texture */}
+      <div className="absolute inset-0 brutal-grid-overlay pointer-events-none" />
+
+      {/* Corner bracket accents */}
+      <div className="absolute top-2 left-2 w-5 h-5 border-l-2 border-t-2 border-[#FDCB84] pointer-events-none" />
+      <div className="absolute top-2 right-2 w-5 h-5 border-r-2 border-t-2 border-[#FDCB84] pointer-events-none" />
+
+      <div className="relative z-10 flex justify-between items-center px-10 py-2">
+        {/* Logo */}
+        <Link href="/">
+          <div className="logo-animate">
+            <img
+              src="/images/elcartel-logo.png"
+              alt="el_cartel_logo"
+              className="h-16 w-auto drop-shadow-[0_0_12px_rgba(253,203,132,0.5)]"
+            />
+          </div>
         </Link>
-      </div>
-      <div className="flex gap-8 mr-60 mt-4 ">
-        <div>
-          <Link href="../product" className="text-white font-hero">
+
+        {/* Nav links */}
+        <nav className="flex gap-8 items-center">
+          <Link href="/product" className="nav-brutal-link">
             Product
           </Link>
-        </div>
-        <div>
-          <Link href="../cart" className="text-white font-hero">
+          <Link href="/cart" className="nav-brutal-link">
             Cart
           </Link>
-        </div>
-        <div>
-          <Link href="../checkout" className="text-white font-hero">
-            Checkout
+          <Link href="/order" className="nav-brutal-link">
+            Order
           </Link>
-        </div>
-        {isLoggedIn && (
-          <div>
-            <Link href="../profile" className="text-white font-hero">
+          {isLoggedIn && (
+            <Link href="/profile" className="nav-brutal-link">
               Profile
             </Link>
-          </div>
-        )}
-        {isLoggedIn ? (
-          <div>
+          )}
+          {isLoggedIn ? (
             <LogoutButton />
-          </div>
-        ) : (
-          <>
-            <div>
-              <Link href="../login" className="text-white font-hero">
+          ) : (
+            <>
+              <Link href="/login" className="nav-brutal-link">
                 Login
               </Link>
-            </div>
-            <div>
-              <Link href="../signup" className="text-white font-hero">
+              <Link href="/signup" className="nav-brutal-link nav-brutal-cta">
                 Register
               </Link>
-            </div>
-          </>
-        )}
+            </>
+          )}
+        </nav>
       </div>
     </header>
   );

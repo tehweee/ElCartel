@@ -14,4 +14,570 @@
   .animate-carousel {
     animation: carousel 30s linear infinite;
   }
+  @keyframes carousel-reverse {
+    from {
+      translate: -100%;
+    }
+    to {
+      translate: 0;
+    }
+  }
+  .animate-carousel-reverse {
+    animation: carousel-reverse 30s linear infinite;
+  }
+}
+
+/* ═══════════════════════════════════════════════
+   SUSHI TRAIN SECTION
+═══════════════════════════════════════════════ */
+
+.sushi-train-section {
+  background: #150d08;
+  padding-top: 3.5rem;
+  padding-bottom: 3.5rem;
+  position: relative;
+}
+
+.sushi-section-header {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 1.4rem 0;
+  border-top: 8px solid #3d2b1f;
+  border-bottom: 8px solid #3d2b1f;
+  background: #150d08;
+}
+
+.sushi-section-title {
+  font-size: 2.4rem;
+  color: #fef9d1;
+  letter-spacing: 0.05em;
+}
+
+.sushi-title-accent {
+  color: #d5a15d;
+}
+
+/* ── Conveyor belt track ── */
+.sushi-track-outer {
+  overflow: hidden; /* clips horizontal scrolling belt */
+  padding: 5rem 0; /* vertical breathing room for scaled plates */
+  border-top: 8px solid #3d2b1f;
+  border-bottom: 8px solid #3d2b1f;
+  background:
+    repeating-linear-gradient(
+      90deg,
+      rgba(255, 255, 255, 0.015) 0px,
+      rgba(255, 255, 255, 0.015) 2px,
+      transparent 2px,
+      transparent 80px
+    ),
+    #1e1008;
+  box-shadow:
+    inset 0 8px 26px rgba(0, 0, 0, 0.6),
+    inset 0 -8px 26px rgba(0, 0, 0, 0.6);
+}
+
+.sushi-track-belt {
+  display: flex;
+  width: max-content;
+}
+
+/* Each belt strip (two for seamless infinite loop) */
+.sushi-belt-strip {
+  display: flex;
+  align-items: center;
+}
+
+/* Individual plate slot */
+.sushi-track-item {
+  flex: 0 0 auto;
+  margin: 0 2.5rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+}
+
+/* ═══════════════════════════════════════════════
+   SUSHI PLATE
+═══════════════════════════════════════════════ */
+
+.sushi-plate {
+  position: relative;
+  width: 220px;
+  height: 220px;
+  cursor: pointer;
+  transition: transform 0.45s cubic-bezier(0.34, 1.56, 0.64, 1);
+  z-index: 1;
+}
+
+.sushi-plate.plate-open {
+  transform: scale(1.45);
+  z-index: 50;
+}
+
+/* Plate base — circular, clips the image */
+.plate-base {
+  position: absolute;
+  inset: 0;
+  border-radius: 50%;
+  overflow: hidden;
+  border: 14px solid #4a2e1a;
+  outline: 4px solid #6b3f22;
+  box-shadow:
+    0 0 0 6px #1e0d05,
+    0 12px 50px rgba(0, 0, 0, 0.8),
+    inset 0 0 20px rgba(0, 0, 0, 0.45);
+  background: #2a1408;
+  z-index: 1;
+}
+
+.plate-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: 50%;
+  display: block;
+  transition:
+    transform 0.45s ease,
+    filter 0.45s ease;
+}
+
+/* Dim the image so that the info overlay text is readable */
+.plate-open .plate-img {
+  transform: scale(1.08);
+  filter: brightness(0.3) blur(1px);
+}
+
+/* ═══════════════════════════════════════════════
+   PLASTIC DOME
+═══════════════════════════════════════════════ */
+
+.sushi-dome {
+  position: absolute;
+  top: -14px;
+  left: -14px;
+  width: calc(100% + 28px);
+  height: calc(100% + 28px);
+  border-radius: 50%;
+
+  /* Glossy transparent plastic look */
+  background: radial-gradient(
+    circle at 34% 26%,
+    rgba(255, 255, 255, 0.65) 0%,
+    rgba(220, 240, 255, 0.28) 24%,
+    rgba(200, 225, 255, 0.1) 52%,
+    rgba(180, 210, 255, 0.03) 78%,
+    transparent 100%
+  );
+  border: 2px solid rgba(255, 255, 255, 0.5);
+  box-shadow:
+    inset 0 4px 24px rgba(255, 255, 255, 0.18),
+    inset 0 -6px 14px rgba(0, 0, 100, 0.06),
+    0 8px 40px rgba(0, 0, 0, 0.45);
+
+  pointer-events: none;
+  transform-origin: center 100%; /* hinge at the bottom edge */
+  transition:
+    transform 0.5s cubic-bezier(0.34, 1.56, 0.64, 1),
+    opacity 0.45s ease;
+  z-index: 3;
+}
+
+/* Dome lifts upward — like physically sliding the cover off */
+.sushi-dome.dome-open {
+  transform: translateY(-112%) scaleY(0.42) scaleX(1.06);
+  opacity: 0.15;
+}
+
+/* Dome closes — reverse, snaps back down */
+.sushi-dome.dome-closing {
+  transform: translateY(0%) scaleY(1) scaleX(1);
+  opacity: 1;
+  transition:
+    transform 0.55s cubic-bezier(0.25, 0.46, 0.45, 0.94),
+    opacity 0.45s ease;
+}
+
+/* ═══════════════════════════════════════════════
+   INFO OVERLAY (inside the plate circle)
+═══════════════════════════════════════════════ */
+
+.sushi-info {
+  position: absolute;
+  inset: 0;
+  border-radius: 50%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 5px;
+  padding: 24px 18px;
+  z-index: 5;
+
+  opacity: 0;
+  transform: scale(0.72);
+  pointer-events: none;
+  transition:
+    opacity 0.38s ease,
+    transform 0.38s ease;
+}
+
+.sushi-info.info-open {
+  opacity: 1;
+  transform: scale(1);
+  pointer-events: all;
+}
+
+.sushi-info.info-closing {
+  opacity: 0;
+  transform: scale(0.72);
+  pointer-events: none;
+  transition:
+    opacity 0.28s ease,
+    transform 0.28s ease;
+}
+
+.sushi-info-name {
+  color: #fdcb84;
+  font-family: var(--font-coiny);
+  font-size: 0.92rem;
+  text-align: center;
+  line-height: 1.15;
+  letter-spacing: 0.05em;
+  max-width: 140px;
+  text-shadow:
+    0 1px 5px rgba(0, 0, 0, 0.95),
+    0 0 14px rgba(0, 0, 0, 0.9);
+}
+
+.sushi-info-price {
+  color: #fef9d1;
+  font-family: var(--font-coiny);
+  font-size: 1.45rem;
+  letter-spacing: 0.04em;
+  text-shadow:
+    0 1px 5px rgba(0, 0, 0, 0.95),
+    0 0 14px rgba(0, 0, 0, 0.9);
+}
+
+/* ── Buttons ── */
+.sushi-btns {
+  display: flex;
+  gap: 6px;
+  justify-content: center;
+  margin-top: 3px;
+}
+
+.btn-view {
+  background: #fdcb84;
+  color: #120a05;
+  border: 3px solid #120a05;
+  box-shadow: 3px 3px 0 #120a05;
+  padding: 3px 10px;
+  font-family: var(--font-coiny);
+  font-size: 0.82rem;
+  cursor: pointer;
+  letter-spacing: 0.04em;
+  text-decoration: none;
+  display: inline-block;
+  line-height: 1.5;
+  transition:
+    background 0.08s,
+    color 0.08s,
+    transform 0.08s,
+    box-shadow 0.08s;
+}
+.btn-view:hover {
+  background: #120a05;
+  color: #fdcb84;
+  transform: translate(3px, 3px);
+  box-shadow: none;
+}
+
+.btn-nahh {
+  background: transparent;
+  color: #888;
+  border: 2px solid #555;
+  padding: 3px 10px;
+  font-family: var(--font-coiny);
+  font-size: 0.82rem;
+  cursor: pointer;
+  letter-spacing: 0.04em;
+  line-height: 1.5;
+  transition:
+    color 0.12s,
+    border-color 0.12s;
+}
+.btn-nahh:hover {
+  color: #ff6b6b;
+  border-color: #ff6b6b;
+}
+
+/* ═══════════════════════════════════════════════
+   RELAX POPUP
+═══════════════════════════════════════════════ */
+
+@keyframes relax-popup-in {
+  0% {
+    transform: translate(-50%, -50%) scale(0.4) rotate(-12deg);
+    opacity: 0;
+  }
+  65% {
+    transform: translate(-50%, -50%) scale(1.08) rotate(4deg);
+    opacity: 1;
+  }
+  100% {
+    transform: translate(-50%, -50%) scale(1) rotate(0deg);
+    opacity: 1;
+  }
+}
+
+@keyframes relax-popup-out {
+  0% {
+    transform: translate(-50%, -50%) scale(1) rotate(0deg);
+    opacity: 1;
+  }
+  100% {
+    transform: translate(-50%, -50%) scale(0.4) rotate(12deg);
+    opacity: 0;
+  }
+}
+
+.relax-popup {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 9999;
+  background: #120a05;
+  border: 5px solid #fdcb84;
+  box-shadow: 10px 10px 0 #000000;
+  padding: 1.6rem 3rem;
+  text-align: center;
+  pointer-events: none;
+  animation: relax-popup-in 0.4s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
+}
+
+.relax-popup-emoji {
+  font-size: 2.8rem;
+  display: block;
+  margin-bottom: 0.5rem;
+  line-height: 1;
+}
+
+.relax-popup-text {
+  font-family: var(--font-coiny);
+  font-size: 1.5rem;
+  color: #fdcb84;
+  letter-spacing: 0.06em;
+  display: block;
+  text-transform: uppercase;
+}
+
+.relax-popup-sub {
+  font-family: var(--font-coiny);
+  font-size: 0.9rem;
+  color: #888;
+  letter-spacing: 0.04em;
+  display: block;
+  margin-top: 0.35rem;
+}
+
+/* ═══════════════════════════════════════════════
+   PRODUCT PAGE — STATIC SUSHI GRID
+═══════════════════════════════════════════════ */
+
+.product-page-wrapper {
+  min-height: 100vh;
+  background: #150d08;
+  padding-top: 2rem;
+  padding-bottom: 4rem;
+}
+
+.product-page-header {
+  text-align: center;
+  padding: 2rem 2rem 2.5rem;
+  border-bottom: 8px solid #3d2b1f;
+  position: relative;
+}
+
+.product-page-title {
+  font-family: var(--font-coiny);
+  font-size: clamp(2.5rem, 6vw, 5rem);
+  color: #fdcb84;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  line-height: 1;
+  margin-bottom: 0.35rem;
+}
+
+.product-page-subtitle {
+  font-family: var(--font-coiny);
+  font-size: 1rem;
+  color: #5a3b20;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+}
+
+/* ── Layout: sidebar + main ── */
+.product-page-body {
+  display: flex;
+  gap: 0;
+  align-items: flex-start;
+  padding: 2.5rem 2rem 0;
+}
+
+/* ── Filter panel ── */
+.product-filter-panel {
+  flex: 0 0 240px;
+  position: sticky;
+  top: 5.5rem;
+  background: #1e1008;
+  border: 4px solid #3d2b1f;
+  box-shadow: 6px 6px 0 #000;
+  padding: 1.6rem 1.4rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1.1rem;
+  margin-right: 2.5rem;
+}
+
+.filter-title {
+  font-family: var(--font-coiny);
+  font-size: 1.55rem;
+  color: #fdcb84;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  border-bottom: 3px solid #3d2b1f;
+  padding-bottom: 0.65rem;
+  margin-bottom: 0.2rem;
+}
+
+.filter-group {
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+}
+
+.filter-label {
+  font-family: var(--font-coiny);
+  font-size: 0.85rem;
+  color: #8a5c35;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+
+.filter-input {
+  width: 100%;
+  background: #120a05;
+  border: 2px solid #3d2b1f;
+  color: #fdcb84;
+  font-family: var(--font-coiny);
+  font-size: 1rem;
+  padding: 0.5rem 0.75rem;
+  outline: none;
+  transition: border-color 0.15s;
+  box-sizing: border-box;
+}
+
+.filter-input:focus {
+  border-color: #fdcb84;
+}
+
+.filter-input::placeholder {
+  color: #3d2b1f;
+}
+
+/* Price slider */
+.filter-slider-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.5rem;
+}
+
+.filter-price-display {
+  font-family: var(--font-coiny);
+  font-size: 1.25rem;
+  color: #fdcb84;
+  white-space: nowrap;
+}
+
+.filter-slider {
+  flex: 1;
+  accent-color: #fdcb84;
+  cursor: pointer;
+  height: 4px;
+}
+
+.filter-divider {
+  border: none;
+  border-top: 2px solid #2a1a0e;
+  margin: 0.2rem 0;
+}
+
+.filter-count {
+  font-family: var(--font-coiny);
+  font-size: 0.82rem;
+  color: #4a2e18;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  text-align: center;
+}
+
+.filter-reset-btn {
+  width: 100%;
+  background: transparent;
+  border: 3px solid #3d2b1f;
+  color: #666;
+  font-family: var(--font-coiny);
+  font-size: 0.95rem;
+  padding: 0.5rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  cursor: pointer;
+  transition:
+    border-color 0.12s,
+    color 0.12s,
+    background 0.12s;
+  margin-top: 0.3rem;
+}
+
+.filter-reset-btn:hover {
+  border-color: #fdcb84;
+  color: #fdcb84;
+  background: rgba(253, 203, 132, 0.06);
+}
+
+/* ── Static plate grid ── */
+.product-page-main {
+  flex: 1;
+  min-width: 0;
+}
+
+.sushi-static-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 5.5rem 1.5rem;
+  padding: 3.5rem 1rem 4rem;
+  justify-items: center;
+  overflow: visible;
+}
+
+/* Remove belt margins from static plates */
+.sushi-static-grid .sushi-track-item {
+  margin: 0;
+}
+
+.sushi-empty-state {
+  grid-column: 1 / -1;
+  text-align: center;
+  padding: 5rem 0;
+  font-family: var(--font-coiny);
+  font-size: 1.4rem;
+  color: #3d2b1f;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
 }
